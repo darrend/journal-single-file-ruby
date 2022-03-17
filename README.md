@@ -2,10 +2,9 @@ Do you write much throwaway code? I do. I often find myself needing to think in 
 
 Since our company often works with Rails stack applications, I tend to write this throwaway code in Ruby. It's also a neat way to sneak ahead and try the latest Ruby releases and language features or try out a gem.
 
-My key for throwaway code are to keep it a single source file, if possible. If the task is more complicated than a single file can hold for the moment then it might not be actual throwaway code. I've found Ruby to be nice for this: it's interpreted and scriptable. The Ruby ecosystem has lots of libraries packaged up as Rubygems. The first I reach for after installing Ruby is the Bundler gem, which manages dependencies for Ruby projects.
+My key for throwaway code is to keep it a single source file, if possible. If the task is more complicated than a single file can hold for the moment then it might not be actual throwaway code. I've found Ruby to be nice for this: it's interpreted and scriptable. The Ruby ecosystem has lots of libraries packaged up as Rubygems. The first I reach for after installing Ruby is the Bundler gem, which manages dependencies for Ruby projects.
 
-But wait, a single file with dependencies to manage? Using dependency managers usually imply additional package files and lock files, right? Well, Bundler provides a really nice [inlining feature](https://bundler.io/guides/bundler_in_a_single_file_ruby_script.html) that dispenses with shareable locking and separate package specifications in order to do just what we need here: keep it all in one file. Reaching out to other preexisting libraries is exactly how
-you pack the immediate functionality you need into one file.
+But wait, a single file with dependencies to manage? Using dependency managers usually imply additional package files and lock files, right? Well, Bundler provides a really nice [inlining feature](https://bundler.io/guides/bundler_in_a_single_file_ruby_script.html) that dispenses with shareable locking and separate package specifications in order to do just what we need here: keep it all in one file. Most importantly, reaching out to leverage other preexisting libraries is exactly how fit the functionalty you need into one file.
 
 Most of the time my standline files pull in the following gems:
 
@@ -13,18 +12,20 @@ Most of the time my standline files pull in the following gems:
 * Pry, for debugging
 * Sequel, for connecting to databases
 
-I'd love to show you some of the throwaway code but unfortunately usually it's heavily entangled with customer's proprietary information, so, I've had to contrive something. Let's pull in a list of all US postal codes and play around.
+I'd love to show you some of the throwaway code I've generated but unfortunately it's often heavily entangled with a customer's proprietary information. So, I've had to contrive something: let's, um, let's pull in a list of all US postal codes and play around.
 
-First, of course, I had to _find_ a list of US postal codes. After for Google and Github searches, I found some libraries that seemed to source their info from the http://www.geonames.org/ data set.
+First, of course, I had to _find_ a list of US postal codes. After for Google and Github searches, I found most libraries seemed to source their info from the http://www.geonames.org/ data set. So I'm going to the source here.
 
 A plan comes together:
 
 * pull the data from https://download.geonames.org/export/zip/
-* extract it and do some data lifting
+* extract it and import it
+* do some data munging to stand in for really important use cases
 
-So, back to googling about (`[stream unzip ruby]`) lead to a [nice Stack Overflow answer](https://stackoverflow.com/questions/33173266/ruby-download-zip-file-and-extract) which in turn led to the first version of our quick one-off file.
+Next is Googling about how to crack into this zip file (`[stream unzip ruby]`). Searching leads to a [nice Stack Overflow answer](https://stackoverflow.com/questions/33173266/ruby-download-zip-file-and-extract) which in turn led to the first version of our quick one-off file.
 
-First
+So, after some research:
+
 * I ensure latest ruby is installed (3.1.1, I use asdf to manage that fwiw), cause single files are a chance to play with the latest.
 * It's one file, but I still make a directory for this file to live in, so `mkdir ~/Projects/junk/fetchpostalcodes`
   * a containing directory for the file allows me to add source control later, gives me a place to throw related data files, etc
@@ -182,24 +183,3 @@ From: /Users/darrend/Projects/journal/journal-single-file-ruby/fetchpostalcodes/
 ```
 
 That's interesting, I wonder what those are. Military bases? I'm off to Google...
-
-### Notes
-
-# journal-single-file-ruby
-* found https://github.com/midwire/free_zipcode_data
-* installed bundler
-
-```
-$ time ruby fetchpostalcodes.rb 
-US      99553   Akutan  Alaska  AK      Aleutians East  013                     54.143  -165.7854       1
-
-real    0m2.399s
-user    0m0.810s
-sys     0m0.413s
-
-$ time ruby fetchpostalcodes.rb 
-US      99553   Akutan  Alaska  AK      Aleutians East  013                     54.143  -165.7854       1
-
-real    0m0.666s
-user    0m0.428s
-sys     0m0.263s
