@@ -121,7 +121,7 @@ From there I can research the rubyzip docs and figure out how to use `Zip::Entry
 US      99553   Akutan  Alaska  AK      Aleutians East  013                     54.143  -165.7854       1
 ```
 
-As you can see this is a very iterative process for me. I'll figure out one step, then move to the next. To speed up the runtime and to avoid hammering resources like databases or apis or the geonames.org website in this case, it's handy to put a pin results in place. In other words, cache results. After some Googling, I found the Lightly gem is a nice local quick caching solution. Adding Lightly into our one-off code is easy. Add the gem dependency and then use it:
+As you can see this is a very iterative process for me. I'll figure out one step, then move to the next. To speed up the runtime and to avoid hammering resources like databases or apis or the geonames.org website in this case, it's handy to pin results in place. In other words, cache results. I've found the [Lightly gem](https://github.com/DannyBen/lightly) to be a great simple local quick caching solution. Adding Lightly into our one-off code is easy: add the gem dependency, and then use it:
 
 ```ruby
   gemfile do
@@ -159,7 +159,7 @@ puts "#{codes.size} entries to be exact"
 
 ```
 $ ruby fetchpostalcodes.rb
-, AK, AL, AR, AZ, CA, CO, CT, DC, DE, FL, GA, HI, IA, ID, IL, IN, KS, KY, LA, MA, MD, ME, MH, MI, MN, MO, MS, MT, NC, ND, NE, NH, NJ, NM, NV, NY, OH, OK, OR, PA, RI, SC, SD, TN, TX, UT, VA, VT, WA, WI, WV, WY
+, AK, AL, AR, AZ, CA, CO, CT, DC, DE, FL, GA...
 41483 entries to be exact
 ```
 
