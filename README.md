@@ -109,9 +109,7 @@ From: /Users/darrend/Projects/journal/journal-single-file-ruby/fetchpostalcodes/
 => Zip::Entry
 ```
 
-From there I can research the rubyzip docs and figure out how to use `Zip::Entry`. 
-
-Later, I can throw in a `binding.pry` after the the `codes = get_zip_codes` line. This allows me to inspect the actual data I'm receiving:
+From there I can research the rubyzip docs and figure out how to use `Zip::Entry`. I can throw in a `binding.pry` after the `codes = get_zip_codes` line. This allows me to inspect the actual data I'm receiving:
 
 ```
 [1] pry(main)> codes.first
